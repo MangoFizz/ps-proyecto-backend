@@ -1,9 +1,3 @@
-# REST Client
-restclient
-
-# SQL scripts
-*.sql
-
 # Logs
 logs
 *.log

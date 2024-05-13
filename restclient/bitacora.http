@@ -1,0 +1,7 @@
+@token = AquiVaTuToken
+
+GET http://localhost:3000/api/bitacora
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+###

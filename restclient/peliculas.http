@@ -1,0 +1,65 @@
+@token = AquiVaTuToken
+
+GET http://localhost:3000/api/peliculas
+Authorization: Bearer {{ token }}
+
+###
+
+GET http://localhost:3000/api/peliculas?s=Dun
+Authorization: Bearer {{ token }}
+
+###
+
+GET http://localhost:3000/api/peliculas/19
+Authorization: Bearer {{ token }}
+
+###
+
+POST http://localhost:3000/api/peliculas
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+    "titulo": "Película de prueba",
+    "sinopsis": "Sinopsis de prueba.",
+    "anio": 2024
+}
+
+###
+
+PUT http://localhost:3000/api/peliculas/16
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+    "peliculaid": 19,
+    "titulo": "Paw Patrol: La Súper Película",
+    "sinopsis": "Un meteorito mágico aterriza en Adventure City y otorga superpoderes a los cachorros de PAW Patrol, convirtiéndolos en The Mighty Pups.",
+    "anio": 2024,
+    "archivoid": null
+}
+
+###
+
+DELETE http://localhost:3000/api/peliculas/21
+Authorization: Bearer {{ token }}
+
+###
+
+POST http://localhost:3000/api/peliculas/19/categoria
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+    "categoriaid": "1"
+}
+
+###
+
+DELETE http://localhost:3000/api/peliculas/19/categoria/6
+Authorization: Bearer {{ token }}
+
+###
+
+DELETE http://localhost:3000/api/peliculas/18
+Authorization: Bearer {{ token }}
