@@ -1,5 +1,6 @@
-Debes crear un archivo .env
+### Debes crear un archivo .env
 
+```
 DB_HOST=localhost
 DB_DATABASE=netflixnodefiles
 DB_USER=netflix_user
@@ -9,3 +10,4 @@ SERVER_PORT=3000
 NODE_ENV=development
 JWT_SECRET=Tu secreto
 FILES_IN_BD=true
+```
