@@ -10,4 +10,6 @@ SERVER_PORT=3000
 NODE_ENV=development
 JWT_SECRET=Tu secreto
 FILES_IN_BD=true
+GMAIL_APP_USER=correoelectronico
+GMAIL_APP_PASSWORD=contraseña
 ```
