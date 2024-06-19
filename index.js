@@ -42,5 +42,5 @@ app.use(errorlogger, errorhandler)
 
 // Inicia el servidor web en el puerto SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {
-    console.log(`Aplicación de ejemplo escuchando en el puerto ${process.env.SERVER_PORT}`)
+    console.log(`.netflix listening at port ${process.env.SERVER_PORT}`)
 })
