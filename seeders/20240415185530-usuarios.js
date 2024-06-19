@@ -8,10 +8,12 @@ module.exports = {
 
         const AdministradorUUID = crypto.randomUUID()
         const UsuarioUUID = crypto.randomUUID()
+        const NoVerificadoUUID = crypto.randomUUID()
 
         await queryInterface.bulkInsert('rol', [
             { id: AdministradorUUID, nombre: 'Administrador', createdAt: new Date(), updatedAt: new Date() },
-            { id: UsuarioUUID, nombre: 'Usuario', createdAt: new Date(), updatedAt: new Date() }
+            { id: UsuarioUUID, nombre: 'Usuario', createdAt: new Date(), updatedAt: new Date() },
+            { id: NoVerificadoUUID, nombre: 'NoVerificado', createdAt: new Date(), updatedAt: new Date() }
         ]);
 
         await queryInterface.bulkInsert('usuario', [

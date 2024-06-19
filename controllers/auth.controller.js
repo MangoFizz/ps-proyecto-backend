@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const { usuario, rol, Sequelize } = require('../models')
 const { GeneraToken, TiempoRestanteToken } = require('../services/jwttoken.service')
+const { generateOTP } = require('../utils/otp')
+const { sendEmail } = require('../utils/email')
 
 let self = {}
 
@@ -47,6 +49,69 @@ self.tiempo = async function (req, res) {
     if (tiempo == null)
         return res.status(404).send()
     return res.status(200).send(tiempo)
+}
+
+self.register = async function (req, res) {
+    const { email, nombre, password } = req.body
+
+    try {
+        let data = await usuario.findOne({ where: { email: email } })
+        if (data !== null) {
+            return res.status(400).json({ mensaje: 'El correo ya está registrado.' })
+        }
+
+        const rolusuario = await rol.findOne({ where: { nombre: 'NoVerificado' } });
+
+        const otp = generateOTP();
+
+        data = await usuario.create({ 
+            id: crypto.randomUUID(),
+            email: req.body.email,
+            passwordhash: await bcrypt.hash(req.body.password, 10),
+            nombre: req.body.nombre,
+            rolid: rolusuario.id,
+            otp: otp
+        });
+
+        req.bitacora("usuario.register", email);
+
+        sendEmail(email, 'Activación de cuenta', `Su código de activación es: ${otp}`);
+
+        req.bitacora("usuario.otpsend", email);
+
+        return res.status(201).json({ mensaje: 'Usuario creado.' })
+    } 
+    catch (error) {
+        return res.status(400).json({ mensaje: 'Error al crear el usuario.' })
+    }
+}
+
+self.verify = async function (req, res) {
+    const { email, code } = req.body
+
+    console.log(email, code)
+
+    try {
+        let data = await usuario.findOne({ where: { email: email } })
+        if (data === null) {
+            return res.status(404).json({ mensaje: 'Usuario no encontrado.' })
+        }
+
+        if (data.otp !== code) {
+            return res.status(400).json({ mensaje: 'Código incorrecto.' })
+        }
+
+        const rolusuario = await rol.findOne({ where: { nombre: 'Usuario' } });
+
+        await data.update({ rolid: rolusuario.id, otp: null });
+
+        req.bitacora("usuario.verify", email);
+
+        return res.status(200).json({ mensaje: 'Usuario verificado.' })
+    } 
+    catch (error) {
+        return res.status(400).json({ mensaje: 'Error al verificar el usuario.' })
+    }
 }
 
 module.exports = self
